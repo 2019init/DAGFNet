@@ -1,0 +1,71 @@
+exp:
+  name: IRSTD_res
+  save_exp: True
+  bs: 6          # chushi 8
+  total_epochs: 300  # 300
+  log_interval: 1
+  save_interval: 150
+  test_interval: 1
+  device: 6
+  dist: False
+model:
+  net:
+    type: UCFNet
+    base_dim: 32
+    theta_0: 0.7
+    theta_1: 0
+    theta_2: 0.7
+    theta_r: 0
+    norm: bn
+    n_blocks: 7
+    #gt_ds: True
+  # chushi
+  optim:
+    type: AdamW
+    init_lr: !!float 1e-3 # 2e-4/1e-3
+    weight_decay: !!float 1e-4   # 1e-6/1e-4
+    betas: [0.9, 0.999]
+#  optim:
+#    type: SGD
+#    init_lr: !!float 1e-3
+#    weight_decay: !!float 1e-4
+#    momentum: 0.9
+  # Iou_loss, Bce_loss, Dice_loss ..
+  loss:
+    loss_1:
+      type: Bce_loss  # Baseloss  Bce_loss
+      weight: sigma1
+    loss_2:
+      type: Iou_loss   # Dice_loss   Iou_loss  SoftDiceLoss  SoftIouLoss TverskyLoss
+      weight: sigma2
+#     loss_3:
+#       type: boundary
+#       weight: 1
+  # resume_train: ~
+  lr:
+    warmup_iter: -1 # warmup to init_lr
+    # type: CosineAnnealingLR /
+    scheduler:
+#      type: ~
+      type: CosineAnnealingLR
+      step_interval: iter  # iter or epoch (every iter or every epoch to update once)
+      eta_min: !!float 1e-5
+
+dataset:
+  name:
+  train:
+    type: Dataset_aug_m
+    data_root: /home/b311/data2/liujiachen/BasicISOS-code/dataset/IRSTD/trainval # /dataset/SIRST/trainval
+    img_sz: 512
+    H_Flip: 0.5
+    V_Flip: 0.1
+
+
+  test:
+    type: Dataset_test
+    data_root: /home/b311/data2/liujiachen/BasicISOS-code/dataset/IRSTD/test # /dataset/SIRST/test
+    img_sz: 512
+
+resume:
+  net_path: 
+  state_path:

@@ -1,0 +1,30 @@
+exp:
+  save_dir: /home/b311/data2/liujiachen/BasicISOS-code/predpic/my/4
+    #/home/b311/data2/liujiachen/BasicISOS-code/predpic/sirst_mean
+  bs: 6 # 8
+  device: 7
+
+model:
+  net:
+    type: UCFNet # MSHNet UCFNet AgpcNet UNet
+    base_dim: 32
+    theta_0: 0.7
+    theta_1: 0
+    theta_2: 0.7
+    theta_r: 0
+    norm: bn
+    n_blocks: 7
+
+
+dataset:
+  test:
+    type: Dataset_test
+    # data_root: C:\1code\BasicISOS-main\dataset\SIRST\test    #/data/wcy/dataset/SIRST/test
+    data_root: /home/b311/data2/liujiachen/BasicISOS-code/dataset/IRSTD/test
+          # /home/b311/data2/liujiachen/BasicISOS-code/dataset/SIRST/test    
+    img_sz: 512
+    get_name: True
+resume:
+  # net_path:  C:\1code\BasicISOS-main\zip\sirst_best\models\net_best_mean.pth #/data/wcy/BasicISOS/experiment/UCF_test/20230228_132154/models/net_best_mean.pth
+  net_path: /home/b311/data2/liujiachen/BasicISOS-code/experiment/IRSTD_res/20250102_155241/models/net_best_mean.pth
+     # /home/b311/data2/liujiachen/BasicISOS-code/experiment/sirstfil/20240614_081425/models/net_best_mean.pth
